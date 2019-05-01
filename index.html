@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>News</title>
+    <link rel="stylesheet" href="./assets/css/style.css">
+</head>
+
+<body>
+    <div id="app">
+        <div class="container">
+            <div class="topbar">
+                <h1>Displaying news from: </h1>
+                <select v-model="selected" @change="refreshList" style="margin-left: auto; font-size: 1em">
+                    <option v-for="(country, val) in countryNameToCode" :value="country">{{val}}</option>
+                </select>
+            </div>
+            <div class="card" v-for="news in newsArray">
+                <div class="news--media">
+                    <span>{{news.source.name}}</span>
+                    <img class="noselect" :src="news.urlToImage" :alt="'Image' + news.title" draggable="false">
+                </div>
+                <div class="news--primary">
+                    <h2>{{news.title}}</h2>
+                    <p>{{formatPublishDate(news.publishedAt)}}</p>
+                </div>
+                <div class="news--supporting">
+                    <p>{{news.description}}</p>
+                </div>
+                <div class="news--actions">
+                    <a :href="news.url" target="_blank">READ MORE</a>
+                </div>
+            </div>
+            <div class="footer">
+                <a href="https://newsapi.org" target="_blank">Powered by News API</a>
+            </div>
+        </div>
+    </div>
+    <script src="./node_modules/vue/dist/vue.common.dev.js"></script>
+    <script src="./node_modules/axios/dist/axios.min.js"></script>
+    <script src="./node_modules/moment/min/moment.min.js"></script>
+    <script>
+        var app = new Vue({
+            el: '#app',
+            data: {
+                newsArray: [],
+                countryNameToCode: {
+                    'Argentina': 'ar',
+                    'Australia': 'au',
+                    'Austria': 'at',
+                    'Belgium': 'be',
+                    'Brazil': 'br',
+                    'Bulgaria': 'bg',
+                    'Canada': 'ca',
+                    'China': 'cn',
+                    'Colombia': 'co',
+                    'Cuba': 'cu',
+                    'Czech Republic': 'cz',
+                    'Egypt': 'eg',
+                    'France': 'fr',
+                    'Germany': 'de',
+                    'Greece': 'gr',
+                    'Hong Kong': 'hk',
+                    'India': 'in',
+                    'Indonesia': 'id',
+                    'Ireland': 'ie',
+                    'Israel': 'il',
+                    'Italy': 'it',
+                    'Japan': 'jp',
+                    'Latvia': 'lv',
+                    'Lithuania': 'lt',
+                    'Malaysia': 'my',
+                    'Mexico': 'mx',
+                    'Morocco': 'ma',
+                    'Netherlands': 'nl',
+                    'New Zealand': 'nz',
+                    'Nigeria': 'ng',
+                    'Norway': 'no',
+                    'Philippines': 'ph',
+                    'Poland': 'pl',
+                    'Portugal': 'pt',
+                    'Romania': 'ro',
+                    'Russia': 'ru',
+                    'Saudia Arabia': 'sa',
+                    'Serbia': 'rs',
+                    'Singapore': 'sg',
+                    'Slovakia': 'sk',
+                    'Slovenia': 'si',
+                    'South Africa': 'za',
+                    'South Korea': 'kr',
+                    'Sweden': 'se',
+                    'Switzerland': 'ch',
+                    'Taiwan': 'tw',
+                    'Thailand': 'th',
+                    'Turkey': 'tr',
+                    'UAE': 'ae',
+                    'Ukraine': 'ua',
+                    'United Kingdom': 'gb',
+                    'United States': 'us',
+                    'Venezuela': 've'
+                },
+                selected: 'si'
+            },
+            mounted() {
+                axios
+                    .get(`https://newsapi.org/v2/top-headlines?country=${this.selected}&apiKey=cae80051e335456b8a9bb4689fe90c25`)
+                    .then(response => this.newsArray = response.data.articles);
+            },
+            methods: {
+                formatPublishDate(date) {
+                    return moment(date).format("D.MM.YYYY HH:mm");
+                },
+                refreshList() {
+                    axios
+                        .get(`https://newsapi.org/v2/top-headlines?country=${this.selected}&apiKey=cae80051e335456b8a9bb4689fe90c25`)
+                        .then(response => this.newsArray = response.data.articles);
+                    document.title = `News - ${selected}`;
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>
