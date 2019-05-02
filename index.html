@@ -110,6 +110,11 @@
         margin: 3px 0;
     }
 
+    .news--primary a {
+        text-decoration: none;
+        color: #212121;
+    }    
+        
     .news--primary p {
         color: #777;
         letter-spacing: 1px;
@@ -197,7 +202,7 @@
                         <img class="noselect" :src="news.urlToImage" :alt="'Image' + news.title" draggable="false">
                     </div>
                     <div class="news--primary">
-                        <h2>{{news.title}}</h2>
+                        <h2><a :href="news.url" target="_blank">{{news.title}}</a></h2>
                         <p>{{formatPublishDate(news.publishedAt)}}</p>
                     </div>
                     <div class="news--supporting">
