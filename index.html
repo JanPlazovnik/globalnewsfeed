@@ -281,7 +281,7 @@
                     axios
                         .get(`https://newsapi.org/v2/top-headlines?country=${this.selected}&apiKey=cae80051e335456b8a9bb4689fe90c25`)
                         .then(response => this.newsArray = response.data.articles);
-                    document.title = `News - ${selected}`;
+                    document.title = `News - ${this.selected}`;
                 }
             }
         })
