@@ -4,10 +4,13 @@ const path = require('path');
 const app = express();
 const port = process.env.PORT || 80;
 
+app.use(express.static(__dirname + '/public'))
+
+/*
 app.use(express.static(path.join(__dirname)));
 app.use("/assets", express.static(__dirname + '/assets'));
 
-/*process.env.PWD = process.cwd();
+process.env.PWD = process.cwd();
 app.use('/assets', express.static(process.env.PWD + '/assets'));*/
 
 app.use((req, res, next) => {
@@ -16,6 +19,6 @@ app.use((req, res, next) => {
     next();
 });
 
-app.get('/', (req, res) => {console.log("Site accessed", res.sendFile(__dirname + '/index.html')});
+app.get('/', (req, res) => res.sendFile(__dirname + '/index.html'));
 
 app.listen(port, () => console.log(`App listening on port ${port}!`));
