@@ -2,7 +2,7 @@ const express = require('express');
 const app = express();
 const port = process.env.PORT || 80;
 
-app.use(express.static(__dirname + '/assets'));
+app.use(express.static(process.env.PWD + '/assets'));
 
 app.use((req, res, next) => {
     res.header("Access-Control-Allow-Origin", "*");
