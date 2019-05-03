@@ -374,12 +374,14 @@
                     'Venezuela': 've'
                 },
                 selected: 'si',
-                dark: false
+                dark: null
             },
             mounted() {
                 axios
                     .get(`https://newsapi.org/v2/top-headlines?country=${this.selected}&apiKey=cae80051e335456b8a9bb4689fe90c25`)
                     .then(response => this.newsArray = response.data.articles);
+                if(localStorage.getItem('dark'))
+                    this.dark = JSON.parse(localStorage.getItem('dark'));    
             },
             methods: {
                 formatPublishDate(date) {
@@ -392,7 +394,8 @@
                     document.title = `News - ${this.selected}`;
                 },
                 toggleDark() {
-                    this.dark = !this.dark;
+                    this.dark = localStorage.dark = !this.dark;
+                    localStorage.setItem("dark", this.dark);
                 }
             }
         })
