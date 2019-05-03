@@ -205,7 +205,7 @@
                 <div class="card" v-for="news in newsArray">
                     <div class="news--media">
                         <span>{{news.source.name}}</span>
-                        <img class="noselect" :src="news.urlToImage" :alt="'Image' + news.title" onerror="this.onerror=null;this.src='https://ou-webserver01.alaska.edu/_resources/images/placeholders/placeholder.png';" draggable="false">
+                        <img class="noselect" :src="news.urlToImage" :alt="'Image missing for: ' + news.title" draggable="false">
                     </div>
                     <div class="news--primary">
                         <h2><a :href="news.url" target="_blank">{{news.title}}</a></h2>
