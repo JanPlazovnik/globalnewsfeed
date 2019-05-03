@@ -1,6 +1,7 @@
 const express = require('express');
 const app = express();
 const port = process.env.PORT || 80;
+process.env.PWD = process.cwd();
 
 app.use(express.static(process.env.PWD + '/assets'));
 
