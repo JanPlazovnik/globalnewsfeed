@@ -40,7 +40,9 @@
 
             #toTop {
                 position: fixed;
-                display: none;
+                display: flex;
+                opacity: 0;
+                pointer-events: none;
                 bottom: 20px;
                 right: 20px;
                 height: 45px;
@@ -63,7 +65,9 @@
             }
 
             #toTop.show {
-                display: flex;
+                /* display: flex; */
+                opacity: 1;
+                pointer-events: all;
             }
 
             .footer {
@@ -188,7 +192,6 @@
 						<img v-if="isURL(news.urlToImage)" :src="news.urlToImage" alt="No image" draggable="false"/>
 					</div>
 					<div class="content">
-                        <!-- <h1><a href="#">Title goes here</a></h1> -->
                         <a :href="news.url" target="_blank"><h1>{{news.title}}</h1></a>
 						<h2>{{formatPublishDate(news.publishedAt)}}</h2>
 						<p v-if="news.description">{{news.description}}</p>
