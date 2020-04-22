@@ -16,7 +16,8 @@
         <!-- iOS Safari -->
         <meta name="apple-mobile-web-app-status-bar-style" content="#121212">
 
-        <link rel="stylesheet" href="https://unicons.iconscout.com/release/v2.1.3/css/unicons.css">
+        <link rel="stylesheet" href="https://unicons.iconscout.com/release/v2.1.6/css/unicons.css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vue-flash-message@0.7.2/dist/vue-flash-message.min.css">
 		<title>SI &middot; Slovenia News</title>
 		<style>
             * {margin: 0; padding: 0}            
@@ -161,10 +162,13 @@
 				margin: 25px 0 0 0;
 			}
 			.news--wrapper .card .actions {
-				padding: 0 20px 20px 20px;
+                padding: 0 20px 20px 20px;
+                display: flex;
 			}
-			.news--wrapper .card .actions a {
-				padding: 15px;
+            .news--wrapper .card .actions a,
+            .news--wrapper .card .actions button {
+                padding: 15px;
+                width: 100%;
 				text-decoration: none;
 				background-color: #121212;
 				color: #7b93db;
@@ -174,8 +178,19 @@
 				border-radius: 5px;
 				transition: all 0.2s cubic-bezier(0.33, -0.25, 0.77, 1.13);
 				font-size: 0.95em;
-			}
-			.news--wrapper .card .actions a:hover {
+            }
+            .news--wrapper .card .actions button.btn-clipboard { 
+                width: 48px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                margin-left: 10px;
+                outline: none;
+                border: none;
+                cursor: pointer;
+            }
+            .news--wrapper .card .actions a:hover,
+            .news--wrapper .card .actions button:hover {
 				background-color: #243a52;
 				color: #f1f5f8;
 			}
@@ -186,6 +201,7 @@
             <div id="toTop" @click="toTop"><i class="uil uil-angle-double-up"></i></div>
             <!-- <h1 class="desc">Displaying latest news from Slovenia</h1> -->
 			<div class="news--wrapper">
+                <flash-message class="myCustomClass"></flash-message>
 				<div class="card" v-for="news in newsArray">
 					<div class="banner">
 						<div class="source">{{news.source.name}}</div>
@@ -198,6 +214,11 @@
 					</div>
 					<div class="actions">
                         <a :href="news.url" target="_blank">Read more</a>
+                        <button class="btn-clipboard" type="button"
+                        v-clipboard:copy="news.url"
+                        v-clipboard:success="onCopy"
+                        v-clipboard:error="onError"><i class="uil uil-copy"></i></button>
+                        <input type="hidden" id="hidden-clipboard" name="hidden-clipboard" :value="news.url">
 					</div>
 				</div>
             </div>
@@ -207,6 +228,7 @@
             </div>
         </div>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.10/vue.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/vue-clipboard2/0.3.1/vue-clipboard.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
         <script>
@@ -244,6 +266,14 @@
                     },
                     isURL(str) {
                         return /^(?:\w+:)?\/\/([^\s\.]+\.\S{2}|localhost[\:?\d]*)\S*$/.test(str); 
+                    },
+                    onCopy: function (e) {
+                        // alert('You just copied: ' + e.text);
+                        console.log("Copied the url to clipboard.");
+                    },
+                    onError: function (e) {
+                        // alert('Failed to copy texts')
+                        console.log("There was an error while copying the url to the clipboard.");
                     }
                 }
             })
